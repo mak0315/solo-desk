@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoloDesk Admin Panel</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar__header">
+                <h2>SoloDesk Admin</h2>
+                <p style="font-size: 0.75rem; opacity: 0.8; margin-top: 0.25rem;">Static Admin Panel</p>
+            </div>
+            <nav class="admin-nav">
+                <a href="#dashboard" class="admin-nav__link active" data-section="dashboard">📊 Dashboard</a>
+                <a href="#settings" class="admin-nav__link" data-section="settings">⚙️ Website Settings</a>
+                <a href="#content" class="admin-nav__link" data-section="content">📝 Content Management</a>
+                <a href="#articles" class="admin-nav__link" data-section="articles">📄 Articles</a>
+                <a href="#tools" class="admin-nav__link" data-section="tools">🔧 Tools</a>
+                <a href="#templates" class="admin-nav__link" data-section="templates">📋 Templates</a>
+                <a href="#seo" class="admin-nav__link" data-section="seo">🔍 SEO Settings</a>
+                <a href="#adsense" class="admin-nav__link" data-section="adsense">💰 AdSense</a>
+                <a href="#ads" class="admin-nav__link" data-section="ads">📢 Advertising</a>
+                <a href="#scripts" class="admin-nav__link" data-section="scripts">💻 Header/Footer Scripts</a>
+                <a href="#analytics" class="admin-nav__link" data-section="analytics">📈 Analytics</a>
+                <a href="#navigation" class="admin-nav__link" data-section="navigation">🧭 Navigation</a>
+                <a href="#theme" class="admin-nav__link" data-section="theme">🎨 Theme</a>
+                <a href="#legal" class="admin-nav__link" data-section="legal">⚖️ Legal Pages</a>
+                <a href="#export" class="admin-nav__link" data-section="export">💾 Export/Import</a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1 id="sectionTitle">Dashboard</h1>
+                <a href="../index.html" target="_blank" class="btn">View Site →</a>
+            </header>
+
+            <div class="admin-content">
+                <!-- Dashboard -->
+                <section id="dashboard" class="admin-section active">
+                    <div class="alert alert--warning">
+                        <strong>⚠️ Important Notice:</strong> This is a static admin panel. Changes saved here are only stored in your browser's localStorage. To publish changes to the live website (<a href="https://mak0315.github.io/solo-desk/" target="_blank">https://mak0315.github.io/solo-desk/</a>), you must export settings and commit files to the <a href="https://github.com/mak0315/solo-desk" target="_blank">GitHub repository</a>.
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Articles</h3>
+                            <div class="stat-card__number" id="statArticles">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Tools</h3>
+                            <div class="stat-card__number">6</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Local Settings</h3>
+                            <div class="stat-card__number" id="statSettings">Configured</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2>Quick Start Guide</h2>
+                        <ol style="margin-left: 1.5rem; line-height: 2;">
+                            <li>Use localStorage settings for testing - visible only in this browser</li>
+                            <li>Export settings as JSON and update config/site-config.json</li>
+                            <li>Add articles as Markdown/JSON files in content/articles/</li>
+                            <li>Commit and push to <a href="https://github.com/mak0315/solo-desk" target="_blank">GitHub repo</a></li>
+                            <li>GitHub Pages will auto-deploy from the repository</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- Website Settings -->
+                <section id="settings" class="admin-section">
+                    <div class="card">
+                        <h2>Website Settings</h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">These settings are saved locally in your browser.</p>
+                        <div class="form-group">
+                            <label>Site Name</label>
+                            <input type="text" id="siteName" value="SoloDesk">
+                        </div>
+                        <div class="form-group">
+                            <label>Site Tagline</label>
+                            <input type="text" id="siteTagline" value="Free Freelance Business Tools">
+                        </div>
+                        <div class="form-group">
+                            <label>Site URL</label>
+                            <input type="url" id="siteUrl" value="https://mak0315.github.io/solo-desk/">
+                        </div>
+                        <div class="form-group">
+                            <label>Default Language</label>
+                            <select id="siteLang">
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                        <button class="btn btn--primary" onclick="saveSettings()">Save to LocalStorage</button>
+                    </div>
+                </section>
+
+                <!-- AdSense -->
+                <section id="adsense" class="admin-section">
+                    <div class="alert alert--warning">
+                        <strong>⚠️ AdSense Policy:</strong> Only render ads where permitted. Avoid ads on empty tool results and pages with insufficient content. Follow Google AdSense policies.
+                    </div>
+                    <div class="card">
+                        <h2>AdSense Configuration</h2>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="adsEnabled"> Enable Advertising Globally
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Publisher ID (ca-pub-XXXXXXXXXX)</label>
+                            <input type="text" id="adsPublisher" placeholder="ca-pub-1234567890123456">
+                        </div>
+                        <div class="form-group">
+                            <label>AdSense Verification Script</label>
+                            <textarea id="adsVerify" rows="3" placeholder="<!-- AdSense verification code -->"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="autoAds"> Enable Auto Ads
+                            </label>
+                        </div>
+                        <h3 style="margin: 1.5rem 0 1rem;">Manual Ad Units</h3>
+                        <div class="form-group">
+                            <label>Header Ad Code</label>
+                            <textarea id="adHeader" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Below Navigation Ad Code</label>
+                            <textarea id="adBelowNav" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Article Introduction Ad Code</label>
+                            <textarea id="adArticleIntro" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>In-Article Ad Code</label>
+                            <textarea id="adInArticle" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Sidebar Ad Code</label>
+                            <textarea id="adSidebar" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Footer Ad Code</label>
+                            <textarea id="adFooter" rows="4"></textarea>
+                        </div>
+                        <button class="btn btn--primary" onclick="saveAdSense()">Save AdSense Settings</button>
+                    </div>
+                </section>
+
+                <!-- Scripts -->
+                <section id="scripts" class="admin-section">
+                    <div class="alert alert--warning">
+                        <strong>⚠️ Warning:</strong> Never expose private API keys, passwords, or confidential credentials in frontend code.
+                    </div>
+                    <div class="card">
+                        <h2>Header & Footer Code Manager</h2>
+                        <h3 style="margin: 1.5rem 0 1rem;">Header Section</h3>
+                        <div class="form-group">
+                            <label>Custom HTML in &lt;head&gt;</label>
+                            <textarea id="headCustom" rows="6"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Google Analytics (gtag)</label>
+                            <textarea id="gaCode" rows="6" placeholder="<!-- Google Analytics -->"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Google Tag Manager (Head)</label>
+                            <textarea id="gtmHead" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Google Search Console Verification</label>
+                            <input type="text" id="gscVerify" placeholder="meta name=google-site-verification">
+                        </div>
+                        <h3 style="margin: 1.5rem 0 1rem;">Body & Footer</h3>
+                        <div class="form-group">
+                            <label>Body Opening Scripts</label>
+                            <textarea id="bodyStart" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Google Tag Manager (Body)</label>
+                            <textarea id="gtmBody" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Footer Scripts</label>
+                            <textarea id="footerScripts" rows="6"></textarea>
+                        </div>
+                        <button class="btn btn--primary" onclick="saveScripts()">Save Scripts</button>
+                    </div>
+                </section>
+
+                <!-- Export/Import -->
+                <section id="export" class="admin-section">
+                    <div class="card">
+                        <h2>Export / Import Settings</h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Export your settings as JSON to commit to GitHub. Import settings from a JSON file.</p>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                            <button class="btn btn--primary" onclick="exportAllSettings()">Export All Data (JSON)</button>
+                            <button class="btn btn--secondary" onclick="downloadConfigTemplate()">Download Config Template</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Import Settings (JSON)</label>
+                            <input type="file" id="importFile" accept=".json" onchange="importSettings(event)">
+                        </div>
+                        <div class="alert alert--info" style="margin-top: 1.5rem;">
+                            <strong>📋 Instructions:</strong>
+                            <ol style="margin-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+                                <li>Export all data or individual articles</li>
+                                <li>Update <code>config/site-config.json</code> with settings</li>
+                                <li>Add articles to <code>content/articles/</code> folder</li>
+                                <li>Commit and push to <a href="https://github.com/mak0315/solo-desk" target="_blank">GitHub repo</a></li>
+                                <li>GitHub Pages (<a href="https://mak0315.github.io/solo-desk/" target="_blank">mak0315.github.io/solo-desk/</a>) will deploy automatically</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Placeholder sections -->
+                <section id="content" class="admin-section"><div class="card"><h2>Content Management</h2><p style="color: var(--text-secondary);">Use Articles section to manage content. Export as JSON/Markdown for GitHub.</p></div></section>
+                <section id="articles" class="admin-section">
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h2 style="margin: 0;">Articles Management</h2>
+                            <button class="btn btn--primary" onclick="showArticleForm()">+ Add New Article</button>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Articles saved in localStorage. Export as JSON to add to content/articles/ folder and commit to GitHub.</p>
+                        <div style="margin-bottom: 1rem;">
+                            <button class="btn" onclick="exportAllArticles()">Export All Articles (JSON)</button>
+                        </div>
+                        <div id="articlesList"></div>
+                    </div>
+                    <div class="card" id="articleForm" style="display: none;">
+                        <h3 id="articleFormTitle">Add New Article</h3>
+                        <input type="hidden" id="articleId">
+                        <div class="form-group">
+                            <label>Title *</label>
+                            <input type="text" id="articleTitle" onkeyup="generateSlug()">
+                        </div>
+                        <div class="form-group">
+                            <label>Slug *</label>
+                            <input type="text" id="articleSlug" placeholder="url-friendly-slug">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="articleDesc" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Content (HTML)</label>
+                            <textarea id="articleContent" rows="8" placeholder="<p>Your article content...</p>"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <input type="text" id="articleCategory" placeholder="Guides">
+                        </div>
+                        <div class="form-group">
+                            <label>Tags (comma separated)</label>
+                            <input type="text" id="articleTags" placeholder="freelance, tips, business">
+                        </div>
+                        <div class="form-group">
+                            <label>Author</label>
+                            <input type="text" id="articleAuthor" value="SoloDesk">
+                        </div>
+                        <div class="form-group">
+                            <label>SEO Title</label>
+                            <input type="text" id="articleSeoTitle">
+                        </div>
+                        <div class="form-group">
+                            <label>SEO Description</label>
+                            <textarea id="articleSeoDesc" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" id="articlePublished"> Published</label>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn--primary" onclick="saveArticle()">Save Article</button>
+                            <button class="btn" onclick="hideArticleForm()">Cancel</button>
+                        </div>
+                    </div>
+                </section>
+                <section id="tools" class="admin-section"><div class="card"><h2>Tools Management</h2><p style="color: var(--text-secondary);">Tools are in /tools/ directory. Edit HTML files directly.</p></div></section>
+                <section id="templates" class="admin-section">
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h2 style="margin: 0;">Templates Management</h2>
+                            <button class="btn btn--primary" onclick="showTemplateForm()">+ Add Template</button>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Templates saved in localStorage. Add files to /templates/ folder.</p>
+                        <div id="templatesList"></div>
+                    </div>
+                    <div class="card" id="templateForm" style="display: none;">
+                        <h3 id="templateFormTitle">Add New Template</h3>
+                        <input type="hidden" id="templateId">
+                        <div class="form-group">
+                            <label>Title *</label>
+                            <input type="text" id="templateTitle">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="templateDesc" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>File Name/Path</label>
+                            <input type="text" id="templateFile" placeholder="template-name.pdf or download link">
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn--primary" onclick="saveTemplate()">Save Template</button>
+                            <button class="btn" onclick="hideTemplateForm()">Cancel</button>
+                        </div>
+                    </div>
+                </section>
+                <section id="seo" class="admin-section"><div class="card"><h2>SEO Settings</h2><p style="color: var(--text-secondary);">Configure in individual pages or export settings.</p></div></section>
+                <section id="ads" class="admin-section"><div class="card"><h2>Advertising Placements</h2><p style="color: var(--text-secondary);">Configure in AdSense section.</p></div></section>
+                <section id="analytics" class="admin-section"><div class="card"><h2>Analytics Settings</h2><p style="color: var(--text-secondary);">Add Google Analytics in Scripts section.</p></div></section>
+                <section id="navigation" class="admin-section"><div class="card"><h2>Navigation Settings</h2><p style="color: var(--text-secondary);">Edit navigation in header.html or individual pages.</p></div></section>
+                <section id="theme" class="admin-section"><div class="card"><h2>Theme Settings</h2><p style="color: var(--text-secondary);">Light/Dark mode is built-in. Customize CSS variables.</p></div></section>
+                <section id="legal" class="admin-section"><div class="card"><h2>Legal Pages</h2><p style="color: var(--text-secondary);">Edit pages in /legal/ directory.</p></div></section>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin-full.js"></script>
+</body>
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator - SoloDesk</title>
+    <meta name="description" content="Free online invoice generator. Create professional invoices with PDF download, taxes, discounts, and customizable business information.">
+    <link rel="canonical" href="https://solodesk.com/tools/invoice-generator.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/theme.js"></script>
+    <style>
+        .invoice-form {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .form-section {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        .form-section__title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.375rem;
+        }
+        .form-group label {
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 0.625rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+            border-color: var(--primary-color);
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        .items-table th,
+        .items-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        .items-table th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        .items-table input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .invoice-preview {
+            background: white;
+            color: black;
+            padding: 2rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            margin-top: 2rem;
+            display: none;
+        }
+        .invoice-preview.active {
+            display: block;
+        }
+        @media print {
+            .header, .footer, .page-header, .invoice-form, .btn-group, .no-print {
+                display: none !important;
+            }
+            .invoice-preview {
+                display: block !important;
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
+            body {
+                background: white;
+                color: black;
+            }
+        }
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .items-table {
+                font-size: 0.875rem;
+            }
+            .items-table th,
+            .items-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header no-print">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="../index.html" class="nav__logo">SoloDesk</a>
+            </div>
+            <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
+                <span class="nav__toggle-bar"></span>
+                <span class="nav__toggle-bar"></span>
+                <span class="nav__toggle-bar"></span>
+            </button>
+            <ul class="nav__menu" id="navMenu">
+                <li class="nav__item">
+                    <a href="../index.html" class="nav__link">Home</a>
+                </li>
+                <li class="nav__item">
+                    <a href="index.html" class="nav__link nav__link--active">All Tools</a>
+                </li>
+                <li class="nav__item">
+                    <a href="../blog/index.html" class="nav__link">Blog</a>
+                </li>
+                <li class="nav__item">
+                    <a href="../templates/index.html" class="nav__link">Templates</a>
+                </li>
+                <li class="nav__item">
+                    <a href="../about.html" class="nav__link">About</a>
+                </li>
+                <li class="nav__item">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header no-print">
+            <div class="container">
+                <h1 class="page-header__title">Invoice Generator</h1>
+                <p class="page-header__subtitle">Create professional invoices with PDF download support</p>
+            </div>
+        </section>
+
+        <section class="tool-container">
+            <div class="container">
+                <div class="invoice-form no-print">
+                    <div class="form-section">
+                        <h2 class="form-section__title">Business Information</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="businessName">Business/Your Name</label>
+                                <input type="text" id="businessName" placeholder="Your Business Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="businessEmail">Email</label>
+                                <input type="email" id="businessEmail" placeholder="your@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="businessPhone">Phone</label>
+                                <input type="tel" id="businessPhone" placeholder="+1234567890">
+                            </div>
+                            <div class="form-group">
+                                <label for="businessAddress">Address</label>
+                                <input type="text" id="businessAddress" placeholder="Street, City, Country">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2 class="form-section__title">Client Information</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="clientName">Client Name/Company</label>
+                                <input type="text" id="clientName" placeholder="Client Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="clientEmail">Client Email</label>
+                                <input type="email" id="clientEmail" placeholder="client@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="clientAddress">Client Address</label>
+                                <input type="text" id="clientAddress" placeholder="Street, City, Country">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2 class="form-section__title">Invoice Details</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="invoiceNumber">Invoice Number</label>
+                                <input type="text" id="invoiceNumber" placeholder="INV-001">
+                            </div>
+                            <div class="form-group">
+                                <label for="invoiceDate">Invoice Date</label>
+                                <input type="date" id="invoiceDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="dueDate">Due Date</label>
+                                <input type="date" id="dueDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="currency">Currency</label>
+                                <select id="currency">
+                                    <option value="USD">$ USD</option>
+                                    <option value="EUR">€ EUR</option>
+                                    <option value="GBP">£ GBP</option>
+                                    <option value="AUD">A$ AUD</option>
+                                    <option value="CAD">C$ CAD</option>
+                                    <option value="INR">₹ INR</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2 class="form-section__title">Items</h2>
+                        <div style="overflow-x: auto;">
+                            <table class="items-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40%;">Description</th>
+                                        <th style="width: 15%;">Quantity</th>
+                                        <th style="width: 20%;">Rate</th>
+                                        <th style="width: 20%;">Amount</th>
+                                        <th style="width: 5%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="itemsBody">
+                                    <tr>
+                                        <td><input type="text" class="item-desc" placeholder="Item description"></td>
+                                        <td><input type="number" class="item-qty" value="1" min="0" step="0.01"></td>
+                                        <td><input type="number" class="item-rate" value="0" min="0" step="0.01"></td>
+                                        <td><input type="text" class="item-amount" readonly></td>
+                                        <td><button type="button" class="btn btn--secondary" onclick="removeItem(this)">×</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" class="btn btn--secondary" onclick="addItem()">+ Add Item</button>
+                    </div>
+
+                    <div class="form-section">
+                        <h2 class="form-section__title">Additional</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="taxRate">Tax Rate (%)</label>
+                                <input type="number" id="taxRate" value="0" min="0" max="100" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="discount">Discount</label>
+                                <input type="number" id="discount" value="0" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="discountType">Discount Type</label>
+                                <select id="discountType">
+                                    <option value="fixed">Fixed Amount</option>
+                                    <option value="percent">Percentage (%)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 1rem;">
+                            <label for="notes">Notes</label>
+                            <textarea id="notes" rows="3" placeholder="Payment terms, additional notes..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn--primary" onclick="generateInvoice()">Generate Invoice</button>
+                        <button type="button" class="btn btn--secondary" onclick="printInvoice()">Print / Save as PDF</button>
+                        <button type="button" class="btn btn--secondary" onclick="resetInvoice()">Reset</button>
+                    </div>
+                </div>
+
+                <div class="invoice-preview" id="invoicePreview"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer no-print">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3 class="footer__logo">SoloDesk</h3>
+                    <p class="footer__description">Professional business toolkit for freelancers worldwide.</p>
+                </div>
+                <div class="footer__section">
+                    <h4 class="footer__title">Tools</h4>
+                    <ul class="footer__list">
+                        <li><a href="invoice-generator.html">Invoice Generator</a></li>
+                        <li><a href="hourly-rate-calculator.html">Hourly Rate Calculator</a></li>
+                        <li><a href="quote-generator.html">Quote Generator</a></li>
+                        <li><a href="time-tracker.html">Time Tracker</a></li>
+                    </ul>
+                </div>
+                <div class="footer__section">
+                    <h4 class="footer__title">Resources</h4>
+                    <ul class="footer__list">
+                        <li><a href="../blog/index.html">Blog</a></li>
+                        <li><a href="../templates/index.html">Templates</a></li>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer__section">
+                    <h4 class="footer__title">Legal</h4>
+                    <ul class="footer__list">
+                        <li><a href="../legal/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="../legal/terms.html">Terms & Conditions</a></li>
+                        <li><a href="../legal/disclaimer.html">Disclaimer</a></li>
+                        <li><a href="../legal/affiliate-disclosure.html">Affiliate Disclosure</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2026 SoloDesk. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.getElementById('invoiceDate').valueAsDate = new Date();
+        const due = new Date();
+        due.setDate(due.getDate() + 30);
+        document.getElementById('dueDate').valueAsDate = due;
+
+        function addItem() {
+            const tbody = document.getElementById('itemsBody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="text" class="item-desc" placeholder="Item description"></td>
+                <td><input type="number" class="item-qty" value="1" min="0" step="0.01"></td>
+                <td><input type="number" class="item-rate" value="0" min="0" step="0.01"></td>
+                <td><input type="text" class="item-amount" readonly></td>
+                <td><button type="button" class="btn btn--secondary" onclick="removeItem(this)">×</button></td>
+            `;
+            tbody.appendChild(tr);
+            attachItemEvents(tr);
+        }
+
+        function removeItem(btn) {
+            const tbody = document.getElementById('itemsBody');
+            if (tbody.children.length > 1) {
+                btn.closest('tr').remove();
+            }
+        }
+
+        function attachItemEvents(row) {
+            const qty = row.querySelector('.item-qty');
+            const rate = row.querySelector('.item-rate');
+            const amount = row.querySelector('.item-amount');
+            function update() {
+                const q = parseFloat(qty.value) || 0;
+                const r = parseFloat(rate.value) || 0;
+                amount.value = (q * r).toFixed(2);
+            }
+            qty.addEventListener('input', update);
+            rate.addEventListener('input', update);
+        }
+
+        document.querySelectorAll('#itemsBody tr').forEach(attachItemEvents);
+
+        function generateInvoice() {
+            const currency = document.getElementById('currency').value;
+            const symbols = {USD: '$', EUR: '€', GBP: '£', AUD: 'A$', CAD: 'C$', INR: '₹'};
+            const sym = symbols[currency] || currency;
+
+            let subtotal = 0;
+            const items = [];
+            document.querySelectorAll('#itemsBody tr').forEach(tr => {
+                const desc = tr.querySelector('.item-desc').value || 'Item';
+                const qty = parseFloat(tr.querySelector('.item-qty').value) || 0;
+                const rate = parseFloat(tr.querySelector('.item-rate').value) || 0;
+                const amt = qty * rate;
+                subtotal += amt;
+                items.push({desc, qty, rate, amt});
+            });
+
+            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const discountType = document.getElementById('discountType').value;
+            let discountAmt = discountType === 'percent' ? subtotal * discount / 100 : discount;
+            const taxAmt = (subtotal - discountAmt) * taxRate / 100;
+            const total = subtotal - discountAmt + taxAmt;
+
+            const preview = document.getElementById('invoicePreview');
+            preview.innerHTML = `
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
+                        <div>
+                            <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">INVOICE</h1>
+                            <p><strong>Invoice #:</strong> ${document.getElementById('invoiceNumber').value || 'N/A'}</p>
+                            <p><strong>Date:</strong> ${document.getElementById('invoiceDate').value}</p>
+                            <p><strong>Due Date:</strong> ${document.getElementById('dueDate').value}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem;">${document.getElementById('businessName').value || 'Your Business'}</h2>
+                            <p>${document.getElementById('businessEmail').value || ''}</p>
+                            <p>${document.getElementById('businessPhone').value || ''}</p>
+                            <p>${document.getElementById('businessAddress').value || ''}</p>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 0.5rem;">Bill To:</h3>
+                        <p><strong>${document.getElementById('clientName').value || 'Client'}</strong></p>
+                        <p>${document.getElementById('clientEmail').value || ''}</p>
+                        <p>${document.getElementById('clientAddress').value || ''}</p>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+                        <thead>
+                            <tr style="background: #f1f5f9;">
+                                <th style="padding: 0.75rem; text-align: left; border: 1px solid #e2e8f0;">Description</th>
+                                <th style="padding: 0.75rem; text-align: center; border: 1px solid #e2e8f0;">Qty</th>
+                                <th style="padding: 0.75rem; text-align: right; border: 1px solid #e2e8f0;">Rate</th>
+                                <th style="padding: 0.75rem; text-align: right; border: 1px solid #e2e8f0;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${items.map(item => `
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid #e2e8f0;">${item.desc}</td>
+                                    <td style="padding: 0.75rem; text-align: center; border: 1px solid #e2e8f0;">${item.qty}</td>
+                                    <td style="padding: 0.75rem; text-align: right; border: 1px solid #e2e8f0;">${sym}${item.rate.toFixed(2)}</td>
+                                    <td style="padding: 0.75rem; text-align: right; border: 1px solid #e2e8f0;">${sym}${item.amt.toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    <div style="margin-left: auto; width: 300px;">
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                            <span>Subtotal:</span>
+                            <span>${sym}${subtotal.toFixed(2)}</span>
+                        </div>
+                        ${discountAmt > 0 ? `
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                            <span>Discount ${discountType === 'percent' ? '('+discount+'%)' : ''}:</span>
+                            <span>-${sym}${discountAmt.toFixed(2)}</span>
+                        </div>
+                        ` : ''}
+                        ${taxRate > 0 ? `
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                            <span>Tax (${taxRate}%):</span>
+                            <span>${sym}${taxAmt.toFixed(2)}</span>
+                        </div>
+                        ` : ''}
+                        <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-top: 2px solid #000; font-weight: 600; font-size: 1.125rem;">
+                            <span>Total:</span>
+                            <span>${sym}${total.toFixed(2)}</span>
+                        </div>
+                    </div>
+                    ${document.getElementById('notes').value ? `
+                    <div style="margin-top: 2rem;">
+                        <h3 style="margin-bottom: 0.5rem;">Notes:</h3>
+                        <p style="white-space: pre-wrap;">${document.getElementById('notes').value}</p>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            preview.classList.add('active');
+            preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function printInvoice() {
+            if (!document.getElementById('invoicePreview').classList.contains('active')) {
+                generateInvoice();
+            }
+            window.print();
+        }
+
+        function resetInvoice() {
+            document.getElementById('invoiceNumber').value = '';
+            document.getElementById('businessName').value = '';
+            document.getElementById('businessEmail').value = '';
+            document.getElementById('businessPhone').value = '';
+            document.getElementById('businessAddress').value = '';
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientEmail').value = '';
+            document.getElementById('clientAddress').value = '';
+            document.getElementById('taxRate').value = '0';
+            document.getElementById('discount').value = '0';
+            document.getElementById('notes').value = '';
+            document.getElementById('itemsBody').innerHTML = `
+                <tr>
+                    <td><input type="text" class="item-desc" placeholder="Item description"></td>
+                    <td><input type="number" class="item-qty" value="1" min="0" step="0.01"></td>
+                    <td><input type="number" class="item-rate" value="0" min="0" step="0.01"></td>
+                    <td><input type="text" class="item-amount" readonly></td>
+                    <td><button type="button" class="btn btn--secondary" onclick="removeItem(this)">×</button></td>
+                </tr>
+            `;
+            document.querySelectorAll('#itemsBody tr').forEach(attachItemEvents);
+            document.getElementById('invoicePreview').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
