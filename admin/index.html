@@ -42,7 +42,11 @@
                 <!-- Dashboard -->
                 <section id="dashboard" class="admin-section active">
                     <div class="alert alert--warning">
+<<<<<<< HEAD
                         <strong>⚠️ Important Notice:</strong> This is a static admin panel. Changes saved here are only stored in your browser's localStorage. To publish changes to the live website (<a href="https://mak0315.github.io/solo-desk/" target="_blank">https://mak0315.github.io/solo-desk/</a>), you must export settings and commit files to the <a href="https://github.com/mak0315/solo-desk" target="_blank">GitHub repository</a>.
+=======
+                        <strong>⚠️ Important Notice:</strong> This is a static admin panel. Changes saved here are only stored in your browser's localStorage. To publish changes to the live website, you must export settings and commit files to GitHub, then deploy via Cloudflare Pages.
+>>>>>>> 43f9c54413a0873844cf0d68f709d595f4ffa750
                     </div>
                     <div class="stats-grid">
                         <div class="stat-card">
@@ -64,8 +68,13 @@
                             <li>Use localStorage settings for testing - visible only in this browser</li>
                             <li>Export settings as JSON and update config/site-config.json</li>
                             <li>Add articles as Markdown/JSON files in content/articles/</li>
+<<<<<<< HEAD
                             <li>Commit and push to <a href="https://github.com/mak0315/solo-desk" target="_blank">GitHub repo</a></li>
                             <li>GitHub Pages will auto-deploy from the repository</li>
+=======
+                            <li>Commit and push to GitHub</li>
+                            <li>Deploy via Cloudflare Pages</li>
+>>>>>>> 43f9c54413a0873844cf0d68f709d595f4ffa750
                         </ol>
                     </div>
                 </section>
@@ -85,7 +94,11 @@
                         </div>
                         <div class="form-group">
                             <label>Site URL</label>
+<<<<<<< HEAD
                             <input type="url" id="siteUrl" value="https://mak0315.github.io/solo-desk/">
+=======
+                            <input type="url" id="siteUrl" value="https://solodesk.com">
+>>>>>>> 43f9c54413a0873844cf0d68f709d595f4ffa750
                         </div>
                         <div class="form-group">
                             <label>Default Language</label>
@@ -198,7 +211,11 @@
                         <h2>Export / Import Settings</h2>
                         <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Export your settings as JSON to commit to GitHub. Import settings from a JSON file.</p>
                         <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+<<<<<<< HEAD
                             <button class="btn btn--primary" onclick="exportAllSettings()">Export All Data (JSON)</button>
+=======
+                            <button class="btn btn--primary" onclick="exportAllSettings()">Export All Settings (JSON)</button>
+>>>>>>> 43f9c54413a0873844cf0d68f709d595f4ffa750
                             <button class="btn btn--secondary" onclick="downloadConfigTemplate()">Download Config Template</button>
                         </div>
                         <div class="form-group">
@@ -208,11 +225,18 @@
                         <div class="alert alert--info" style="margin-top: 1.5rem;">
                             <strong>📋 Instructions:</strong>
                             <ol style="margin-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+<<<<<<< HEAD
                                 <li>Export all data or individual articles</li>
                                 <li>Update <code>config/site-config.json</code> with settings</li>
                                 <li>Add articles to <code>content/articles/</code> folder</li>
                                 <li>Commit and push to <a href="https://github.com/mak0315/solo-desk" target="_blank">GitHub repo</a></li>
                                 <li>GitHub Pages (<a href="https://mak0315.github.io/solo-desk/" target="_blank">mak0315.github.io/solo-desk/</a>) will deploy automatically</li>
+=======
+                                <li>Export settings to get a JSON file</li>
+                                <li>Copy relevant settings to <code>config/site-config.json</code></li>
+                                <li>Commit and push to GitHub</li>
+                                <li>Deploy on Cloudflare Pages</li>
+>>>>>>> 43f9c54413a0873844cf0d68f709d595f4ffa750
                             </ol>
                         </div>
                     </div>
@@ -220,6 +244,7 @@
 
                 <!-- Placeholder sections -->
                 <section id="content" class="admin-section"><div class="card"><h2>Content Management</h2><p style="color: var(--text-secondary);">Use Articles section to manage content. Export as JSON/Markdown for GitHub.</p></div></section>
+<<<<<<< HEAD
                 <section id="articles" class="admin-section">
                     <div class="card">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
@@ -311,6 +336,11 @@
                         </div>
                     </div>
                 </section>
+=======
+                <section id="articles" class="admin-section"><div class="card"><h2>Articles Management</h2><p style="color: var(--text-secondary);">Create articles in content/articles/ as Markdown or JSON files.</p></div></section>
+                <section id="tools" class="admin-section"><div class="card"><h2>Tools Management</h2><p style="color: var(--text-secondary);">Tools are in /tools/ directory. Edit HTML files directly.</p></div></section>
+                <section id="templates" class="admin-section"><div class="card"><h2>Templates Management</h2><p style="color: var(--text-secondary);">Add templates to /templates/ directory.</p></div></section>
+>>>>>>> 43f9c54413a0873844cf0d68f709d595f4ffa750
                 <section id="seo" class="admin-section"><div class="card"><h2>SEO Settings</h2><p style="color: var(--text-secondary);">Configure in individual pages or export settings.</p></div></section>
                 <section id="ads" class="admin-section"><div class="card"><h2>Advertising Placements</h2><p style="color: var(--text-secondary);">Configure in AdSense section.</p></div></section>
                 <section id="analytics" class="admin-section"><div class="card"><h2>Analytics Settings</h2><p style="color: var(--text-secondary);">Add Google Analytics in Scripts section.</p></div></section>
@@ -321,6 +351,10 @@
         </main>
     </div>
 
+<<<<<<< HEAD
     <script src="admin-full.js"></script>
+=======
+    <script src="admin.js"></script>
+>>>>>>> 43f9c54413a0873844cf0d68f709d595f4ffa750
 </body>
 </html>
