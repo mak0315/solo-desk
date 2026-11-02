@@ -1,0 +1,56 @@
+{
+  "site": {
+    "name": "SoloDesk",
+    "tagline": "Free Freelance Business Tools",
+    "url": "https://solodesk.com",
+    "language": "en",
+    "description": "Professional toolkit for freelancers with free online tools, calculators, generators and resources."
+  },
+  "adsense": {
+    "enabled": false,
+    "publisher": "",
+    "verify": "",
+    "autoAds": false,
+    "placements": {
+      "header": "",
+      "belowNav": "",
+      "articleIntro": "",
+      "inArticle": "",
+      "sidebar": "",
+      "beforeRelated": "",
+      "footer": ""
+    },
+    "mobileVisible": true,
+    "desktopVisible": true
+  },
+  "scripts": {
+    "head": "",
+    "bodyStart": "",
+    "footer": "",
+    "analytics": {
+      "googleAnalytics": "",
+      "googleTagManager": {
+        "head": "",
+        "body": ""
+      },
+      "googleSearchConsole": "",
+      "pinterest": ""
+    }
+  },
+  "seo": {
+    "defaultTitle": "SoloDesk - Free Freelance Business Tools, Templates & Guides",
+    "defaultDescription": "Professional toolkit for freelancers with invoice generator, pricing calculators, quote generator, time tracker and more.",
+    "defaultKeywords": "freelance tools, invoice generator, pricing calculator, quote generator, time tracker",
+    "ogImage": "",
+    "twitterCard": "summary_large_image"
+  },
+  "theme": {
+    "defaultMode": "light",
+    "allowDarkMode": true
+  },
+  "features": {
+    "blog": true,
+    "templates": true,
+    "tools": true
+  }
+}
