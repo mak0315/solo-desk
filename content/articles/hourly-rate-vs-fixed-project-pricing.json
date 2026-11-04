@@ -1,0 +1,13 @@
+{
+  "title": "Hourly Rate vs Fixed Project Pricing",
+  "slug": "hourly-rate-vs-fixed-project-pricing",
+  "description": "Compare hourly pricing and fixed project pricing to choose the best model for your freelance work.",
+  "content": "<h2>Hourly Pricing</h2><p><strong>Pros:</strong> Pay for actual time, safe for unclear scope<br><strong>Cons:</strong> Clients may worry about hours, less efficient for fast work</p><h2>Fixed Project Pricing</h2><p><strong>Pros:</strong> Predictable for clients, reward efficiency<br><strong>Cons:</strong> Risk if scope grows, need accurate estimation</p><h2>When to Use Which</h2><ul><li>Use hourly for ongoing work, debugging, or unclear scope</li><li>Use fixed price for well-defined projects with clear deliverables</li></ul><h2>Calculate Right Price</h2><p>Use <a href=\"/tools/project-pricing-calculator.html\">SoloDesk's project pricing calculator</a> to price fixed projects correctly.</p>",
+  "category": "Pricing",
+  "tags": ["pricing", "hourly", "fixed price", "project"],
+  "author": "SoloDesk",
+  "date": "2026-11-04",
+  "published": true,
+  "seoTitle": "Hourly Rate vs Fixed Project Pricing | SoloDesk",
+  "seoDescription": "Compare hourly vs fixed pricing for freelancers and learn when to use each model."
+}
