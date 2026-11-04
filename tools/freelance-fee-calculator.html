@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Platform Fee Calculator - SoloDesk</title>
+    <meta name="description" content="Calculate fees from Upwork, Fiverr, Freelancer.com and other platforms. See your net earnings.">
+    <link rel="canonical" href="https://mak0315.github.io/solo-desk/tools/freelance-fee-calculator.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/theme.js"></script>
+    <style>
+        .calc-container{max-width:800px;margin:0 auto;display:grid;gap:1.5rem}
+        .calc-card{background:var(--bg-secondary);padding:1.5rem;border-radius:var(--radius-lg);border:1px solid var(--border-color)}
+        .calc-card h2{font-size:1.125rem;font-weight:600;margin-bottom:1rem;color:var(--text-primary)}
+        .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+        .form-group{display:flex;flex-direction:column;gap:0.375rem}
+        .form-group label{font-weight:500;font-size:0.875rem;color:var(--text-primary)}
+        .form-group input,.form-group select{padding:0.625rem;border:1px solid var(--border-color);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary);font-family:inherit;font-size:0.9rem}
+        .form-group input:focus,.form-group select:focus{outline:2px solid var(--primary-color);outline-offset:2px;border-color:var(--primary-color)}
+        .result-card{background:linear-gradient(135deg,#059669,#047857);color:white;padding:2rem;border-radius:var(--radius-lg);text-align:center;display:none}
+        .result-card.active{display:block}
+        .result-amount{font-size:3rem;font-weight:700;margin-bottom:0.5rem}
+        .breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;text-align:left}
+        .breakdown-item{background:rgba(255,255,255,0.1);padding:0.75rem;border-radius:var(--radius-md)}
+        @media(max-width:768px){.form-grid{grid-template-columns:1fr}.result-amount{font-size:2rem}}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand"><a href="../index.html" class="nav__logo">SoloDesk</a></div>
+            <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation"><span class="nav__toggle-bar"></span><span class="nav__toggle-bar"></span><span class="nav__toggle-bar"></span></button>
+            <ul class="nav__menu" id="navMenu">
+                <li class="nav__item"><a href="../index.html" class="nav__link">Home</a></li>
+                <li class="nav__item"><a href="index.html" class="nav__link nav__link--active">All Tools</a></li>
+                <li class="nav__item"><a href="../blog/index.html" class="nav__link">Blog</a></li>
+                <li class="nav__item"><a href="../templates/index.html" class="nav__link">Templates</a></li>
+                <li class="nav__item"><a href="../about.html" class="nav__link">About</a></li>
+                <li class="nav__item"><button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1 class="page-header__title">Freelance Platform Fee Calculator</h1>
+                <p class="page-header__subtitle">Calculate fees and net earnings from freelance platforms</p>
+            </div>
+        </section>
+
+        <section class="tool-container">
+            <div class="container">
+                <div class="calc-container">
+                    <div class="calc-card">
+                        <h2>Project Value</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="projectValue">Project Value ($)</label>
+                                <input type="number" id="projectValue" min="0" step="0.01" placeholder="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="platform">Platform</label>
+                                <select id="platform" onchange="setPlatformFee()">
+                                    <option value="custom">Custom</option>
+                                    <option value="upwork">Upwork (10%)</option>
+                                    <option value="fiverr">Fiverr (20%)</option>
+                                    <option value="freelancer">Freelancer.com (10%)</option>
+                                    <option value="guru">Guru (5-9%)</option>
+                                    <option value="99designs">99designs (varies)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calc-card">
+                        <h2>Fees</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="platformFee">Platform Fee (%)</label>
+                                <input type="number" id="platformFee" min="0" max="100" step="0.1" placeholder="10">
+                            </div>
+                            <div class="form-group">
+                                <label for="processingFee">Payment Processing Fee (%)</label>
+                                <input type="number" id="processingFee" min="0" max="100" step="0.1" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="additionalFee">Additional Charges ($)</label>
+                                <input type="number" id="additionalFee" min="0" step="0.01" placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn--primary" onclick="calculateFees()" style="justify-self:center">Calculate Net Earnings</button>
+
+                    <div class="result-card" id="resultCard">
+                        <h2 style="margin-bottom:0.5rem">Net Earnings</h2>
+                        <div class="result-amount" id="netEarnings">$0.00</div>
+                        <p>You take home</p>
+                        <div class="breakdown">
+                            <div class="breakdown-item">
+                                <strong>Project Value</strong><br>
+                                <span id="projVal">$0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <strong>Platform Fee</strong><br>
+                                <span id="platFee">$0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <strong>Processing Fee</strong><br>
+                                <span id="procFee">$0</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <strong>Effective Fee Rate</strong><br>
+                                <span id="effRate">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3 class="footer__logo">SoloDesk</h3>
+                    <p class="footer__description">Professional business toolkit for freelancers worldwide.</p>
+                </div>
+                <div class="footer__section">
+                    <h4 class="footer__title">Tools</h4>
+                    <ul class="footer__list">
+                        <li><a href="invoice-generator.html">Invoice Generator</a></li>
+                        <li><a href="hourly-rate-calculator.html">Hourly Rate Calculator</a></li>
+                        <li><a href="freelance-fee-calculator.html">Freelance Fee Calculator</a></li>
+                        <li><a href="time-tracker.html">Time Tracker</a></li>
+                    </ul>
+                </div>
+                <div class="footer__section">
+                    <h4 class="footer__title">Resources</h4>
+                    <ul class="footer__list">
+                        <li><a href="../blog/index.html">Blog</a></li>
+                        <li><a href="../templates/index.html">Templates</a></li>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer__section">
+                    <h4 class="footer__title">Legal</h4>
+                    <ul class="footer__list">
+                        <li><a href="../legal/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="../legal/terms.html">Terms & Conditions</a></li>
+                        <li><a href="../legal/disclaimer.html">Disclaimer</a></li>
+                        <li><a href="../legal/affiliate-disclosure.html">Affiliate Disclosure</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2026 SoloDesk. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        function setPlatformFee(){
+            const p=document.getElementById('platform').value;
+            const fees={upwork:10,fiverr:20,freelancer:10,guru:7,99designs:15};
+            if(fees[p]!==undefined) document.getElementById('platformFee').value=fees[p];
+        }
+        function calculateFees(){
+            const val=parseFloat(document.getElementById('projectValue').value)||0;
+            const pFee=parseFloat(document.getElementById('platformFee').value)||0;
+            const prFee=parseFloat(document.getElementById('processingFee').value)||0;
+            const addFee=parseFloat(document.getElementById('additionalFee').value)||0;
+            const platAmt=val*pFee/100;
+            const procAmt=val*prFee/100;
+            const totalFees=platAmt+procAmt+addFee;
+            const net=val-totalFees;
+            const eff=val>0?(totalFees/val)*100:0;
+            document.getElementById('netEarnings').textContent='$'+net.toFixed(2);
+            document.getElementById('projVal').textContent='$'+val.toFixed(2);
+            document.getElementById('platFee').textContent='-$'+platAmt.toFixed(2)+' ('+pFee+'%)';
+            document.getElementById('procFee').textContent='-$'+procAmt.toFixed(2)+' ('+prFee+'%)';
+            document.getElementById('effRate').textContent=eff.toFixed(2)+'%';
+            document.getElementById('resultCard').classList.add('active');
+            document.getElementById('resultCard').scrollIntoView({behavior:'smooth',block:'nearest'});
+        }
+    </script>
+</body>
+</html>
